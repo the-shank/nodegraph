@@ -1,30 +1,35 @@
+extern crate alloc;
+
 use crate::NodeGraphError;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use std::{
-    any::Any,
-    collections::{HashMap, VecDeque},
-    error::Error,
-};
+// use std::any::Any;
+use core::any::Any;
+use std::collections::{HashMap, VecDeque};
+use std::error::Error;
 
 pub type ComponentMap<K> = HashMap<K, serde_json::Value>;
 pub type NodeMap<ID, K> = HashMap<ID, ComponentMap<K>>;
 pub type EdgeMap<ID> = AdjacencyList<ID>;
 
 #[derive(Default, Serialize, Deserialize, Debug, PartialEq, Clone)]
-pub struct NodeGraph<ID: Eq + std::hash::Hash + Clone, K: Eq + std::hash::Hash + Clone> {
+// pub struct NodeGraph<ID: Eq + std::hash::Hash + Clone, K: Eq + std::hash::Hash + Clone> {
+pub struct NodeGraph<ID: Eq + core::hash::Hash + Clone, K: Eq + core::hash::Hash + Clone> {
     pub nodes: NodeMap<ID, K>,
     pub edges: Vec<EdgeMap<ID>>,
 }
 
 #[derive(Default, Serialize, Deserialize, Debug, PartialEq, Clone)]
-pub struct AdjacencyList<ID: Eq + std::hash::Hash + Clone> {
+// pub struct AdjacencyList<ID: Eq + std::hash::Hash + Clone> {
+pub struct AdjacencyList<ID: Eq + core::hash::Hash + Clone> {
     pub edges: HashMap<ID, Vec<ID>>,
 }
 
 impl<ID, K> NodeGraph<ID, K>
 where
-    ID: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
-    K: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    // ID: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    // K: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    ID: Eq + core::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + core::fmt::Display,
+    K: Eq + core::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + core::fmt::Display,
 {
     pub fn to_dot(&self) -> String {
         let mut dot_str = String::from("digraph G {\n");
@@ -220,12 +225,16 @@ where
     }
 }
 
-impl<ID, K> std::fmt::Display for NodeGraph<ID, K>
+// impl<ID, K> std::fmt::Display for NodeGraph<ID, K>
+impl<ID, K> core::fmt::Display for NodeGraph<ID, K>
 where
-    ID: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
-    K: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    // ID: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    // K: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    ID: Eq + core::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + core::fmt::Display,
+    K: Eq + core::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + core::fmt::Display,
 {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    // fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         write!(f, "{}", self.to_dot())
     }
 }
@@ -295,14 +304,17 @@ impl TypeRegistry {
 }
 
 #[derive(Default)]
-pub struct NodeGraphBuilder<ID: Eq + std::hash::Hash + Clone, K: Eq + std::hash::Hash + Clone> {
+// pub struct NodeGraphBuilder<ID: Eq + std::hash::Hash + Clone, K: Eq + std::hash::Hash + Clone> {
+pub struct NodeGraphBuilder<ID: Eq + core::hash::Hash + Clone, K: Eq + core::hash::Hash + Clone> {
     graph: NodeGraph<ID, K>,
 }
 
 impl<ID, K> NodeGraphBuilder<ID, K>
 where
-    ID: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
-    K: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    // ID: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    // K: Eq + std::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + std::fmt::Display,
+    ID: Eq + core::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + core::fmt::Display,
+    K: Eq + core::hash::Hash + Clone + Serialize + for<'de> Deserialize<'de> + core::fmt::Display,
 {
     pub fn add_node(
         &mut self,
@@ -620,8 +632,10 @@ mod tests {
         Velocity,
     }
 
-    impl std::fmt::Display for ComponentKey {
-        fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    // impl std::fmt::Display for ComponentKey {
+    impl core::fmt::Display for ComponentKey {
+        // fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
             write!(f, "{:?}", self)
         }
     }

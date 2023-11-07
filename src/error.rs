@@ -9,8 +9,10 @@ pub enum NodeGraphError {
     DeserializationError(String),
 }
 
-impl std::fmt::Display for NodeGraphError {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+// impl std::fmt::Display for NodeGraphError {
+impl core::fmt::Display for NodeGraphError {
+    // fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         match self {
             NodeGraphError::NodeAlreadyExists => {
                 write!(f, "Node with this ID already exists")
